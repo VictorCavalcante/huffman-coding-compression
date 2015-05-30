@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 typedef struct node{
-	int value;
+	char value;
 	int priority;
 	struct node *nextNode;
 }Node;
@@ -25,7 +25,7 @@ int isEmpty(Queue* queue){
 	return (queue->first == NULL);
 }
 
-Queue* enqueue(Queue* priorityQueue, int item, int priority){
+Queue* enqueue(Queue* priorityQueue, char item, int priority){
 	Node *newNode = (Node*)malloc(sizeof(Node));
 	newNode->priority = priority;
 	newNode->value = item;
@@ -59,7 +59,7 @@ int dequeue(Queue* queue){
 void printPriorityQueue(Queue* queue){
 	Node *current = queue->first;
 	while(current != NULL){
-		printf("[%d|%d]-", current->value, current->priority);
+		printf("%c | %d\n", current->value, current->priority);
 		current = current->nextNode;
 	}
 }
