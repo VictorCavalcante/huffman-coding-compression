@@ -10,7 +10,7 @@
 
 int main(){
 	FILE *pFile;
-	Queue* ocurrenceQueue = createQueue();
+	Queue* occurrenceQueue = createQueue();
 	char strAux[100];
 	char file_text[250] = "";
 
@@ -28,10 +28,10 @@ int main(){
 	removeLineBreakOfString(file_text);
 
 	//Generating Ocurrence priority queue
-	ocurrenceQueue = generateCharacterOcurrenceQueue(ocurrenceQueue, file_text);
+	occurrenceQueue = generateCharacterOcurrenceQueue(occurrenceQueue, file_text);
 
 	//Free & close
-	freePriorityQueue(ocurrenceQueue);
+	freePriorityQueue(occurrenceQueue);
 	fclose(pFile);
 
 	return 0;

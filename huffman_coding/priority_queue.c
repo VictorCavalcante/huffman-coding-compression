@@ -59,7 +59,11 @@ int dequeue(Queue* queue){
 void printPriorityQueue(Queue* queue){
 	Node *current = queue->first;
 	while(current != NULL){
-		printf("%c | %d\n", current->value, current->priority);
+		if(current->value == '\n'){
+			printf("\\n | %d\n", current->priority);
+		} else {
+			printf("%c | %d\n", current->value, current->priority);
+		}
 		current = current->nextNode;
 	}
 }
