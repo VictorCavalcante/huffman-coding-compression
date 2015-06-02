@@ -41,6 +41,5 @@ int main(){
 	//Free & close
 	freePriorityQueue(occurrenceQueue);
 	fclose(pFile);
-
 	return 0;
 }
