@@ -7,12 +7,14 @@
 #include <string.h>
 #include "priority_queue.h"
 #include "auxiliary_functions.h"
+#define MAX_LINE 400
+#define MAX_TOTAL 400
 
 int main(){
 	FILE *pFile;
 	Queue* occurrenceQueue = createQueue();
-	char strAux[100];
-	char file_text[250] = "";
+	char strAux[MAX_LINE];
+	char file_text[MAX_TOTAL] = "";
 
 	//Open File
 	pFile = fopen("test.txt", "r");
@@ -29,6 +31,12 @@ int main(){
 
 	//Generating Ocurrence priority queue
 	occurrenceQueue = generateCharacterOcurrenceQueue(occurrenceQueue, file_text);
+
+	//Merging Queue into a tree
+	Node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
+
+	//Print huffman tree in preOrder
+	printQueueTreePreOrder(huffmanTree);
 
 	//Free & close
 	freePriorityQueue(occurrenceQueue);
