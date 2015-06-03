@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "priority_queue.h"
+#include "hashtable_list.h"
 #include "auxiliary_functions.h"
 #define MAX_LINE 400
 #define MAX_TOTAL 400
