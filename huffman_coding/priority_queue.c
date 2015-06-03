@@ -5,16 +5,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node{
+typedef struct q_node{
 	char value;
 	int priority;
-	struct node *nextNode;
-	struct node *left;
-	struct node *right;
-}Node;
+	struct q_node *nextNode;
+	struct q_node *left;
+	struct q_node *right;
+}Q_node;
 
 typedef struct queue{
-	Node *first;
+	Q_node *first;
 }Queue;
 
 Queue* createQueue(){
@@ -23,17 +23,17 @@ Queue* createQueue(){
 	return queue;
 }
 
-int isEmpty(Queue* queue){
+int queueIsEmpty(Queue* queue){
 	return (queue->first == NULL);
 }
 
-Queue* insertNodeOnQueue(Queue* priorityQueue, Node* newNode){
+Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode){
 	//insert front
-	if(isEmpty(priorityQueue) || priorityQueue->first->priority > newNode->priority){
+	if(queueIsEmpty(priorityQueue) || priorityQueue->first->priority > newNode->priority){
 		newNode->nextNode = priorityQueue->first;
 		priorityQueue->first = newNode;
 	} else {
-		Node *current = priorityQueue->first;
+		Q_node *current = priorityQueue->first;
 		//insert end or mid
 		while(current->nextNode != NULL && current->nextNode->priority < newNode->priority){
 			current = current->nextNode;
@@ -44,8 +44,8 @@ Queue* insertNodeOnQueue(Queue* priorityQueue, Node* newNode){
 	return priorityQueue;
 }
 
-Node* createQueueNode(char item, int priority){
-	Node *newNode = (Node*)malloc(sizeof(Node));
+Q_node* createQueueNode(char item, int priority){
+	Q_node *newNode = (Q_node*)malloc(sizeof(Q_node));
 	newNode->priority = priority;
 	newNode->value = item;
 	newNode->left = NULL;
@@ -54,13 +54,13 @@ Node* createQueueNode(char item, int priority){
 }
 
 Queue* enqueue(Queue* priorityQueue, char item, int priority){
-	Node *newNode = createQueueNode(item, priority);
+	Q_node *newNode = createQueueNode(item, priority);
 	return insertNodeOnQueue(priorityQueue, newNode);
 }
 
-Node* dequeue(Queue* queue){
-	if(!isEmpty(queue)){
-		Node *current = queue->first;
+Q_node* dequeue(Queue* queue){
+	if(!queueIsEmpty(queue)){
+		Q_node *current = queue->first;
 		queue->first = queue->first->nextNode;
 		current->nextNode = NULL;
 		return current;
@@ -69,7 +69,7 @@ Node* dequeue(Queue* queue){
 }
 
 void printPriorityQueue(Queue* queue){
-	Node *current = queue->first;
+	Q_node *current = queue->first;
 	while(current != NULL){
 		if(current->value == '\n'){
 			printf("\\n | %d\n", current->priority);
@@ -80,7 +80,7 @@ void printPriorityQueue(Queue* queue){
 	}
 }
 
-void printQueueTreePreOrder(Node* node){
+void printQueueTreePreOrder(Q_node* node){
 	if(node != NULL){
 		printf("%c ", node->value);
 		printQueueTreePreOrder(node->left);
@@ -89,7 +89,7 @@ void printQueueTreePreOrder(Node* node){
 }
 
 void freePriorityQueue(Queue* queue){
-	Node *current;
+	Q_node *current;
 	while(queue->first != NULL){
 		current = queue->first;
 		queue->first = queue->first->nextNode;
@@ -98,7 +98,7 @@ void freePriorityQueue(Queue* queue){
 }
 
 int getQueueLength(Queue* queue){
-	Node *current = queue->first;
+	Q_node *current = queue->first;
 	int count = 0;
 	while(current != NULL){
 		current = current->nextNode;
@@ -107,8 +107,8 @@ int getQueueLength(Queue* queue){
 	return count;
 }
 
-Node* mergeQueueIntoHuffmanTree(Queue* queue){
-	Node *firstNode, *secondNode, *newNode;
+Q_node* mergeQueueIntoHuffmanTree(Queue* queue){
+	Q_node *firstNode, *secondNode, *newNode;
 	int sum;
 
 	while(getQueueLength(queue) > 1){

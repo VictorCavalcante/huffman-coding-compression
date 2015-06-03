@@ -12,7 +12,7 @@
  * #left points to left child node
  * #right points to right child node
  */
-typedef struct node Node;
+typedef struct q_node Q_node;
 
 /**
  * Struct of a queue containing a pointer that points to the
@@ -30,19 +30,19 @@ Queue* createQueue();
  * Check if the queue is empty
  * returns true of false.
  */
-int isEmpty(Queue* queue);
+int queueIsEmpty(Queue* queue);
 
 /**
  * Takes an already allocated Node and equeues it according to its
  * priority in ASCENDING order.
  */
-Queue* insertNodeOnQueue(Queue* priorityQueue, Node* newNode);
+Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode);
 
 /**
  * Allocates node and sets its priority and value.
  * Also sets its left and right pointers to NULL;
  */
-Node* createQueueNode(char item, int priority);
+Q_node* createQueueNode(char item, int priority);
 
 /**
  * Allocates node and sets its pointers(left & right), priority and value,
@@ -55,7 +55,7 @@ Queue* enqueue(Queue* priorityQueue, char item, int priority);
  * removes it by setting its #nextNode attribute to NULL and moving the queue's HEAD forward,
  * If the queue is empty, returns NULL.
  */
-Node* dequeue(Queue* queue);
+Q_node* dequeue(Queue* queue);
 
 /**
  * Prints every element of the queue in order.
@@ -65,7 +65,7 @@ void printPriorityQueue(Queue* queue);
 /**
  * Prints the elements of a tree in Pre-order
  */
-void printQueueTreePreOrder(Node* node);
+void printQueueTreePreOrder(Q_node* node);
 
 /**
  * Free every element of the queue.
@@ -82,6 +82,6 @@ int getQueueLength(Queue* queue);
  * which value is set to '*' and priority set to the sum of its children, then enqueues this new node into the priority queue.
  * Repeats those steps until theres only one element on queue, generating a tree. Later returns this new tree.
  */
-Node* mergeQueueIntoHuffmanTree(Queue* queue);
+Q_node* mergeQueueIntoHuffmanTree(Queue* queue);
 
 #endif /* PRIORITY_QUEUE_H_ */

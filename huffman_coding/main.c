@@ -16,27 +16,23 @@ int main(){
 	char strAux[MAX_LINE];
 	char file_text[MAX_TOTAL] = "";
 
-	//Open File
+// STEP ONE - Open File > Save text > Genereate Queue > Generate Tree ====================
+	// Open File
 	pFile = fopen("test.txt", "r");
 	if(pFile == NULL){
 		printf("Error opening file");
 		exit(0);
 	}
-
-	//Save entire text file content into string: file_text
+	// Save entire text file content into string: file_text
 	while(fgets(strAux, 100, pFile) != NULL){
 		strcat(file_text, strAux);
 	}
 	removeLineBreakOfString(file_text);
-
-	//Generating Ocurrence priority queue
+	// Generating Ocurrence priority queue
 	occurrenceQueue = generateCharacterOcurrenceQueue(occurrenceQueue, file_text);
+	// Merging Queue into a tree
+	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue); //====================
 
-	//Merging Queue into a tree
-	Node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
-
-	//Print huffman tree in preOrder
-	printQueueTreePreOrder(huffmanTree);
 
 	//Free & close
 	freePriorityQueue(occurrenceQueue);
