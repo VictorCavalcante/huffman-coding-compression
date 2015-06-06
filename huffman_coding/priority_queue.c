@@ -4,6 +4,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "hashtable_list.h"
+#define MAX_BIN_PATH 100
 
 typedef struct q_node{
 	char value;
@@ -122,4 +125,21 @@ Q_node* mergeQueueIntoHuffmanTree(Queue* queue){
 		newNode->right = secondNode;
 	}
 	return newNode;
+}
+
+void create_binary_dictionary_hashtable(Q_node* node, char *path, char *direction, Hashtable* ht){
+	char pathTurn[MAX_BIN_PATH];
+	if(strcmp(direction, "left") == 0){
+			strcat(path, "0");
+	} else if (strcmp(direction, "right") == 0){
+		strcat(path, "1");
+	}
+	strcpy(pathTurn, path);
+
+	if(node->value == '*'){
+		create_binary_dictionary_hashtable(node->left, path, "left", ht);
+		create_binary_dictionary_hashtable(node->right, pathTurn, "right", ht);
+	} else {
+		put(ht, path, node->value);
+	}
 }

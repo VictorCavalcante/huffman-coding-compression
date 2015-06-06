@@ -10,12 +10,15 @@
 #include "auxiliary_functions.h"
 #define MAX_LINE 400
 #define MAX_TOTAL 400
+#define MAX_BIN_PATH 100
 
 int main(){
 	FILE *pFile;
 	Queue* occurrenceQueue = createQueue();
 	char strAux[MAX_LINE];
 	char file_text[MAX_TOTAL] = "";
+	char binaryPath[MAX_BIN_PATH] = "";
+	char pathDirection[5] = "";
 
 // STEP ONE - Open File > Save text > Genereate Queue > Generate Tree ====================
 	// Open File
@@ -34,9 +37,14 @@ int main(){
 	// Merging Queue into a tree
 	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue); //====================
 
+	// Generating hash with binary dictionary
+	Hashtable* dictionary = createHashTable();
+	create_binary_dictionary_hashtable(huffmanTree, binaryPath, pathDirection, dictionary);
+	printHashTable(dictionary);
 
 	//Free & close
 	freePriorityQueue(occurrenceQueue);
+	freeHashTable(dictionary);
 	fclose(pFile);
 	return 0;
 }
