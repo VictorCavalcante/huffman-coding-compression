@@ -27,13 +27,16 @@ int main(){
 		printf("Error opening file");
 		exit(0);
 	}
+
 	// Save entire text file content into string: file_text
 	while(fgets(strAux, 100, pFile) != NULL){
 		strcat(file_text, strAux);
 	}
 	removeLineBreakOfString(file_text);
+
 	// Generating Ocurrence priority queue
 	occurrenceQueue = generateCharacterOcurrenceQueue(occurrenceQueue, file_text);
+
 	// Merging Queue into a tree
 	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue); //====================
 

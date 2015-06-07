@@ -32,7 +32,7 @@ int queueIsEmpty(Queue* queue){
 
 Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode){
 	//insert front
-	if(queueIsEmpty(priorityQueue) || priorityQueue->first->priority > newNode->priority){
+	if(queueIsEmpty(priorityQueue) || priorityQueue->first->priority >= newNode->priority){
 		newNode->nextNode = priorityQueue->first;
 		priorityQueue->first = newNode;
 	} else {
@@ -85,7 +85,7 @@ void printPriorityQueue(Queue* queue){
 
 void printQueueTreePreOrder(Q_node* node){
 	if(node != NULL){
-		printf("%c ", node->value);
+		printf("%c - %d\n", node->value, node->priority);
 		printQueueTreePreOrder(node->left);
 		printQueueTreePreOrder(node->right);
 	}
