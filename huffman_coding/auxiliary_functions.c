@@ -24,7 +24,7 @@ Queue* generateCharacterOcurrenceQueue(Queue* queue, char *fullText){
 		if(fullText[i] == prev && fullText[i] != '\0'){
 			eventCount++;
 		} else {
-			queue = enqueue(queue, prev, eventCount);
+			queue = PQ_enqueue(queue, prev, eventCount);
 			eventCount = 1;
 			prev = fullText[i];
 		}

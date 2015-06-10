@@ -30,7 +30,7 @@ int queueIsEmpty(Queue* queue){
 	return (queue->first == NULL);
 }
 
-Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode){
+Queue* insertNodeOnPriorityQueue(Queue* priorityQueue, Q_node* newNode){
 	//insert front
 	if(queueIsEmpty(priorityQueue) || priorityQueue->first->priority >= newNode->priority){
 		newNode->nextNode = priorityQueue->first;
@@ -47,6 +47,23 @@ Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode){
 	return priorityQueue;
 }
 
+Queue* insertNodeOnQueue(Queue* queue, Q_node* newNode){
+	//insert front
+	if(queueIsEmpty(queue)){
+		newNode->nextNode = queue->first;
+		queue->first = newNode;
+	} else {
+		Q_node *current = queue->first;
+		//insert end or mid
+		while(current->nextNode != NULL){
+			current = current->nextNode;
+		}
+		newNode->nextNode = current->nextNode;
+		current->nextNode = newNode;
+	}
+	return queue;
+}
+
 Q_node* createQueueNode(char item, int priority){
 	Q_node *newNode = (Q_node*)malloc(sizeof(Q_node));
 	newNode->priority = priority;
@@ -56,9 +73,14 @@ Q_node* createQueueNode(char item, int priority){
 	return newNode;
 }
 
-Queue* enqueue(Queue* priorityQueue, char item, int priority){
+Queue* PQ_enqueue(Queue* priorityQueue, char item, int priority){
 	Q_node *newNode = createQueueNode(item, priority);
-	return insertNodeOnQueue(priorityQueue, newNode);
+	return insertNodeOnPriorityQueue(priorityQueue, newNode);
+}
+
+Queue* enqueue(Queue* queue, char item){
+	Q_node *newNode = createQueueNode(item, 0);
+	return insertNodeOnQueue(queue, newNode);
 }
 
 Q_node* dequeue(Queue* queue){
@@ -69,6 +91,18 @@ Q_node* dequeue(Queue* queue){
 		return current;
 	}
 	return NULL;
+}
+
+char dequeueAndFree(Queue* queue){
+	if(!queueIsEmpty(queue)){
+		Q_node *current = queue->first;
+		char dequeuedValue;
+		dequeuedValue = current->value;
+		queue->first = queue->first->nextNode;
+		free(current);
+		return dequeuedValue;
+	}
+	return ' ';
 }
 
 void printPriorityQueue(Queue* queue){
@@ -120,7 +154,7 @@ Q_node* mergeQueueIntoHuffmanTree(Queue* queue){
 		sum = firstNode->priority + secondNode->priority;
 
 		newNode = createQueueNode('*', sum);
-		queue = insertNodeOnQueue(queue, newNode);
+		queue = insertNodeOnPriorityQueue(queue, newNode);
 		newNode->left = firstNode;
 		newNode->right = secondNode;
 	}

@@ -35,9 +35,15 @@ int queueIsEmpty(Queue* queue);
 
 /**
  * Takes an already allocated Node and equeues it according to its
- * priority in ASCENDING order.
+ * priority in ASCENDING order. (When comparing 2 nodes with the same priority, the new node
+ * will be set before the existing one)
  */
-Queue* insertNodeOnQueue(Queue* priorityQueue, Q_node* newNode);
+Queue* insertNodeOnPriorityQueue(Queue* priorityQueue, Q_node* newNode);
+
+/**
+ * Takes an already allocated Node and inserts it at the end of the queue
+ */
+Queue* insertNodeOnQueue(Queue* queue, Q_node* newNode);
 
 /**
  * Allocates node and sets its priority and value.
@@ -49,7 +55,12 @@ Q_node* createQueueNode(char item, int priority);
  * Allocates node and sets its pointers(left & right), priority and value,
  * then inserts the new node in the queue according to its priority in ASCENDING order.
  */
-Queue* enqueue(Queue* priorityQueue, char item, int priority);
+Queue* PQ_enqueue(Queue* priorityQueue, char item, int priority);
+
+/**
+ * Allocates node, sets its value and then inserts it at the end of the queue.
+ */
+Queue* enqueue(Queue* queue, char item);
 
 /**
  * Returns first element of the queue (with the lowest priority) then
@@ -57,6 +68,12 @@ Queue* enqueue(Queue* priorityQueue, char item, int priority);
  * If the queue is empty, returns NULL.
  */
 Q_node* dequeue(Queue* queue);
+
+/**
+ * Moves queue's HEAD forward, then frees queue's first element and returns its value.
+ * If the queue is empty, returns NULL.
+ */
+char dequeueAndFree(Queue* queue);
 
 /**
  * Prints every element of the queue in order.
