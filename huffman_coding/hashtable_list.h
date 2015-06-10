@@ -16,7 +16,7 @@ int hashGenerator(char key);
 
 void put(Hashtable* ht, char *binary, char keyLetter);
 
-char get(Hashtable* ht, char keyLetter);
+char* get(Hashtable* ht, char keyLetter);
 
 void printHashTable(Hashtable *ht);
 
