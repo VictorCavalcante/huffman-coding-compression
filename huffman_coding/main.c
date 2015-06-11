@@ -13,7 +13,7 @@
 #define MAX_BIN_PATH 100
 
 int main(){
-	FILE *pFile;
+	FILE *inFile;
 	Queue* occurrenceQueue = createQueue();
 	char strAux[MAX_LINE];
 	char file_text[MAX_TOTAL] = "";
@@ -22,68 +22,71 @@ int main(){
 
 // STEP ONE - Open File > Save text > Genereate Queue > Generate Tree > Create Binary Dictionary ======
 	// Open File
-	pFile = fopen("test.txt", "r");
-	if(pFile == NULL){
+	inFile = fopen("test.txt", "r");
+	if(inFile == NULL){
 		printf("Error opening file");
 		exit(0);
 	}
 
 	// Save entire text file content into string: file_text
-	while(fgets(strAux, 100, pFile) != NULL){
+	while(fgets(strAux, 100, inFile) != NULL){
 		strcat(file_text, strAux);
 	}
 	removeLineBreakOfString(file_text);
-	fclose(pFile);
+	fclose(inFile);
 	// Generating Ocurrence priority queue
 	occurrenceQueue = generateCharacterOcurrenceQueue(occurrenceQueue, file_text);
 
 	// Merging Queue into a tree
-	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue); //====================
+	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
 
 	// Generating hash with binary dictionary
 	Hashtable* dictionary = createHashTable();
 	create_binary_dictionary_hashtable(huffmanTree, binaryPath, pathDirection, dictionary);
 
-// STEP TWO - ====================
-	/*FILE *outFile;
-	char unChar[8] = "This is";
-
-	outFile = fopen("outTest.huff", "w+b");
+// STEP TWO - Open file (trslte & .huff) > Create trslte queue > Trslte c-by-c > Write on file
+	//Opening file for binary translation
+	FILE *tslFile = fopen("test.txt", "r");
+	if(tslFile == NULL){
+		printf("Error opening file");
+		exit(0);
+	}
+	//Creating new .huff file to write compressed binary data
+	FILE *outFile = fopen("outTest.huff", "w+b");
 	if(outFile == NULL){
 		printf("Error writing file");
 		exit(0);
 	}
-	fwrite(unChar, sizeof(unChar), 1, outFile);
-	fclose(outFile);*/
-
-	FILE *tFile = fopen("test.txt", "r");
+	//Creating translation queue
 	Queue *binaryTrans = createQueue();
 	char currChar, currBin[100];
+	unsigned char mask;
 	int i;
-	if(tFile == NULL){
-		printf("Error opening file");
-		exit(0);
-	}
-	while((currChar = fgetc(tFile)) != EOF) {
+	/* Reading character by character, translating them and  then
+	 * writting its binary correspondent on .huff file */
+	while((currChar = fgetc(tslFile)) != EOF) {
 		strcpy(currBin, get(dictionary, currChar));
 		for(i = 0; i < strlen(currBin); i++){
 			enqueue(binaryTrans, currBin[i]);
 		}
 		if(getQueueLength(binaryTrans) >= 8){
-			//todo dequeue 8 times while creating binary (setBit foo), then write it on the new .huff file
-			for(i = 0; i < 8; i++){
-				printf("%c", dequeueAndFree(binaryTrans));
+			mask = '0';
+			for(i = 7; i >= 0; i--){
+				if(dequeueAndFree(binaryTrans) == '1'){
+					mask = setBit(mask, i);
+				}
 			}
-			printf("\n");
+			fwrite(&mask, sizeof(unsigned char), 1, outFile);
 		}
 	}
-	if(strlen(currBin) > 0){
-		//todo get trash size here
-	}
-	freePriorityQueue(binaryTrans);
-	fclose(tFile);
+	//todo get trash size here
+	//if(strlen(currBin) > 0){
+	//}
 
 	//Free & close
+	fclose(tslFile);
+	fclose(outFile);
+	freePriorityQueue(binaryTrans);
 	freePriorityQueue(occurrenceQueue);
 	freeHashTable(dictionary);
 
