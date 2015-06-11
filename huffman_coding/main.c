@@ -63,14 +63,14 @@ int main(){
 	unsigned char mask;
 	int i;
 	/* Reading character by character, translating them and  then
-	 * writting its binary correspondent on .huff file */
+	 * writing its binary correspondent on .huff file */
 	while((currChar = fgetc(tslFile)) != EOF) {
 		strcpy(currBin, get(dictionary, currChar));
 		for(i = 0; i < strlen(currBin); i++){
 			enqueue(binaryTrans, currBin[i]);
 		}
-		if(getQueueLength(binaryTrans) >= 8){
-			mask = '0';
+		while(getQueueLength(binaryTrans) >= 8){
+			mask = 0 << 8;
 			for(i = 7; i >= 0; i--){
 				if(dequeueAndFree(binaryTrans) == '1'){
 					mask = setBit(mask, i);
@@ -80,8 +80,18 @@ int main(){
 		}
 	}
 	//todo get trash size here
-	//if(strlen(currBin) > 0){
-	//}
+	// Reading remaining characters and writing their binary correspondent
+	if(getQueueLength(binaryTrans) > 0){
+		int binQueueSize = getQueueLength(binaryTrans), j = 7;
+		mask = 0 << 8;
+		for(i = 0; i < binQueueSize; i++){
+			if(dequeueAndFree(binaryTrans) == '1'){
+				mask = setBit(mask, j);
+			}
+			j--;
+		}
+		fwrite(&mask, sizeof(unsigned char), 1, outFile);
+	}
 
 	//Free & close
 	fclose(tslFile);
