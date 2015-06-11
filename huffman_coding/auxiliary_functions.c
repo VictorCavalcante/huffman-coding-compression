@@ -37,3 +37,8 @@ void removeLineBreakOfString(char* newStr){
 		newStr[strlen(newStr) - 1] = '\0';
 	}
 }
+
+unsigned char setBit(unsigned char c, int i){
+	unsigned char mask = 1 << i;
+	return mask | c;
+}

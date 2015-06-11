@@ -102,7 +102,7 @@ char dequeueAndFree(Queue* queue){
 		free(current);
 		return dequeuedValue;
 	}
-	return ' ';
+	return 'x';
 }
 
 void printPriorityQueue(Queue* queue){

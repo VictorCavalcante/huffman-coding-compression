@@ -20,4 +20,11 @@ Queue* generateCharacterOcurrenceQueue(Queue* queue, char *fullText);
  */
 void removeLineBreakOfString(char* newStr);
 
+/**
+ * Creates a mask empty buffer then sets a bit on its #i position.
+ * Then using the OR arithmetic operation between given buffer and mask, sets
+ * the bit '1' on the #i position of given buffer, then returns it.
+ */
+unsigned char setBit(unsigned char c, int i);
+
 #endif /* AUXILIARY_FUNCTIONS_H_ */
