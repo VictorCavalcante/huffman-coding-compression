@@ -5,7 +5,6 @@
 
 #ifndef PRIORITY_QUEUE_H_
 #define PRIORITY_QUEUE_H_
-#include "hashtable_list.h"
 
 /**
  * Struct of a node containing a value, a priority and 3 pointers:
@@ -102,13 +101,14 @@ int getQueueLength(Queue* queue);
  */
 Q_node* mergeQueueIntoHuffmanTree(Queue* queue);
 
-/**
- * Receives a tree as first parameter then iterates the tree in pre-order
- * concatenating 0 everytime it moves the pointer to the left and 1 when it moves the pointer
- * to the right, when the pointer reaches the traversal '*' it then pushes the string containing
- * the 0's and 1's and node value into a hashtable, generating a dictionary of characters and
- * correspondent binary representation.
- */
-void create_binary_dictionary_hashtable(Q_node* node, char *path, char *direction, Hashtable* ht);
+
+void writeTreeOnFile(FILE *pfile, Q_node *tree);
+
+
+Q_node* getQueueNodeLeft(Q_node* node);
+
+Q_node* getQueueNodeRight(Q_node* node);
+
+char getQueueNodeValue(Q_node* node);
 
 #endif /* PRIORITY_QUEUE_H_ */
