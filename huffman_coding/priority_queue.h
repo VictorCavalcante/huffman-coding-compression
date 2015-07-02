@@ -20,6 +20,10 @@ typedef struct q_node Q_node;
  */
 typedef struct queue Queue;
 
+typedef struct q_tree Q_tree;
+
+Q_tree* createQueueTree();
+
 /**
  * Allocates queue, sets its property @first as NULL and
  * returns a pointer to the newly allocated Queue.
@@ -99,11 +103,14 @@ int getQueueLength(Queue* queue);
  * which value is set to '*' and priority set to the sum of its children, then enqueues this new node into the priority queue.
  * Repeats those steps until theres only one element on queue, generating a tree. Later returns this new tree.
  */
-Q_node* mergeQueueIntoHuffmanTree(Queue* queue);
+Q_tree* mergeQueueIntoHuffmanTree(Queue* queue);
 
 
-void writeTreeOnFile(FILE *pfile, Q_node *tree);
+void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree);
 
+Q_node* getTreeRootNode(Q_tree* tree);
+
+Q_node* getTreeSize(Q_tree* tree);
 
 Q_node* getQueueNodeLeft(Q_node* node);
 

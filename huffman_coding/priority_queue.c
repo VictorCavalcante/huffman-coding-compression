@@ -18,10 +18,22 @@ typedef struct queue{
 	Q_node *first;
 }Queue;
 
+typedef struct q_tree{
+	int treeSize;
+	Q_node *first;
+}Q_tree;
+
 Queue* createQueue(){
 	Queue* queue = (Queue*)malloc(sizeof(Queue));
 	queue->first = NULL;
 	return queue;
+}
+
+Q_tree* createQueueTree(){
+	Q_tree* tree = (Q_tree*)malloc(sizeof(Q_tree));
+	tree->first = NULL;
+	tree->treeSize = 0;
+	return tree;
 }
 
 int queueIsEmpty(Queue* queue){
@@ -142,8 +154,9 @@ int getQueueLength(Queue* queue){
 	return count;
 }
 
-Q_node* mergeQueueIntoHuffmanTree(Queue* queue){
+Q_tree* mergeQueueIntoHuffmanTree(Queue* queue){
 	Q_node *firstNode, *secondNode, *newNode;
+	Q_tree *huffmanTree = createQueueTree();
 	int sum;
 
 	while(getQueueLength(queue) > 1){
@@ -156,16 +169,25 @@ Q_node* mergeQueueIntoHuffmanTree(Queue* queue){
 		newNode->left = firstNode;
 		newNode->right = secondNode;
 	}
-	return newNode;
+	huffmanTree->first = newNode;
+	return huffmanTree;
 }
 
-void writeTreeOnFile(FILE *pfile, Q_node *node){
+void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 	if(node != NULL){
-		//printf("%c", node->value);
+		tree->treeSize++;
 		fputc(node->value, pfile);
-		writeTreeOnFile(pfile, node->left);
-		writeTreeOnFile(pfile, node->right);
+		writeTreeOnFile(pfile, node->left, tree);
+		writeTreeOnFile(pfile, node->right, tree);
 	}
+}
+
+Q_node* getTreeRootNode(Q_tree* tree){
+	return tree->first;
+}
+
+int getTreeSize(Q_tree* tree){
+	return tree->treeSize;
 }
 
 Q_node* getQueueNodeLeft(Q_node* node){
