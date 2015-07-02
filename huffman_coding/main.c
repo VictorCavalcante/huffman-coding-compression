@@ -38,11 +38,11 @@ int main(){
 	free(occurrenceHash);
 
 	// Merging Queue into a tree
-	Q_node *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
+	Q_tree *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
 
 	// Generating hash with binary dictionary
 	Hashtable* dictionary = createHashTable();
-	create_binary_dictionary_hashtable(huffmanTree, binaryPath, pathDirection, dictionary);
+	create_binary_dictionary_hashtable(getTreeRootNode(huffmanTree), binaryPath, pathDirection, dictionary);
 
 // STEP TWO - Open file (trslte & .huff) > Create trslte queue > Trslte c-by-c > Write on file
 	//Opening file for binary translation
@@ -54,25 +54,17 @@ int main(){
 	}
 
 	//Creating new .huff file to write compressed binary data
-	FILE *headerFile = fopen("outTest.huff", "a+");
-	if(headerFile == NULL){
+	FILE *outFile = fopen("outTest.huff", "w+b");
+	if(outFile == NULL){
 		printf("Error writing file");
 		exit(0);
 	}
 
 	//Setting Header placeholder
-	setHeaderPlaceholder(headerFile);
+	setHeaderPlaceholder(outFile);
 
 	//Writting tree (pre-order)
-	writeTreeOnFile(headerFile, huffmanTree);
-
-	fclose(headerFile);
-
-	FILE *outFile = fopen("outTest.huff", "ab+");
-	if(outFile == NULL){
-		printf("Error writing file");
-		exit(0);
-	}
+	writeTreeOnFile(outFile, getTreeRootNode(huffmanTree), huffmanTree);
 
 	//Creating translation queue
 	Queue *binaryTrans = createQueue();
@@ -99,6 +91,7 @@ int main(){
 	//todo get trash size here
 	// Reading remaining characters and writing their binary correspondent
 	if(getQueueLength(binaryTrans) > 0){
+		int trashSize = 8 - getQueueLength(binaryTrans);
 		int binQueueSize = getQueueLength(binaryTrans), j = 7;
 		mask = 0 << 8;
 		for(i = 0; i < binQueueSize; i++){
@@ -107,7 +100,7 @@ int main(){
 			}
 			j--;
 		}
-		fwrite(&mask, sizeof(unsigned char), 1, outFile);
+		writeTrashAndTreeSize(outFile, trashSize, getTreeSize(huffmanTree));
 	}
 
 	//Free & close
