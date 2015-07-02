@@ -6,10 +6,17 @@
 #include <stdio.h>
 #define H_MAX 13
 
-void setHeaderPlaceholder(FILE *pfile){
+void setHeaderPlaceholder(FILE *pFile){
 	unsigned char mask = 0;
-	fwrite(&mask, sizeof(unsigned char), 1, pfile);
-	fwrite(&mask, sizeof(unsigned char), 1, pfile);
+	fwrite(&mask, sizeof(unsigned char), 1, pFile);
+	fwrite(&mask, sizeof(unsigned char), 1, pFile);
+}
+
+void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize){
+	//fseek(pFile, 0, SEEK_SET);
+	//unsigned short mask = 0;
+	//fwrite(&mask, sizeof(unsigned short), 1, pFile);
+	printf("trash size: %d\ntree size: %d", trashSize, treeSize);
 }
 
 void removeLineBreakOfString(char* newStr){

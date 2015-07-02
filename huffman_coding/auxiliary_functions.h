@@ -6,8 +6,9 @@
 #ifndef AUXILIARY_FUNCTIONS_H_
 #define AUXILIARY_FUNCTIONS_H_
 
+void setHeaderPlaceholder(FILE *pFile);
 
-void setHeaderPlaceholder(FILE *pfile);
+void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize);
 
 /**
  * Removes line breack character '\n' from the end of the string
