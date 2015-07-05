@@ -30,4 +30,6 @@ void removeLineBreakOfString(char* newStr);
  */
 unsigned char setBit(unsigned char c, int i);
 
+int isBitISet(unsigned char c, int i);
+
 #endif /* AUXILIARY_FUNCTIONS_H_ */
