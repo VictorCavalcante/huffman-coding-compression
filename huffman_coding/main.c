@@ -46,7 +46,6 @@ int main(){
 
 // STEP TWO - Open file (trslte & .huff) > Create trslte queue > Trslte c-by-c > Write on file
 	//Opening file for binary translation
-	//todo Use fseek instead of opening the file again
 	FILE *tslFile = fopen("test.txt", "r");
 	if(tslFile == NULL){
 		printf("Error opening file");

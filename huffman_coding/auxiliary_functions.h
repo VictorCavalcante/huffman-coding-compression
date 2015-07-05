@@ -6,6 +6,10 @@
 #ifndef AUXILIARY_FUNCTIONS_H_
 #define AUXILIARY_FUNCTIONS_H_
 
+int is_bigendian();
+
+short reverseShort(short s);
+
 void setHeaderPlaceholder(FILE *pFile);
 
 void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize);

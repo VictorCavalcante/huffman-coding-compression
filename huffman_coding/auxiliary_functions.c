@@ -6,17 +6,32 @@
 #include <stdio.h>
 #define H_MAX 13
 
+int is_bigendian(){
+	int i = 1;
+	return ( (*(char*)&i) == 0 );
+}
+
+short reverseShort(short s) {
+    unsigned char c1, c2;
+    if(is_bigendian()){
+        return s;
+    } else {
+        c1 = s & 255;
+        c2 = (s >> 8) & 255;
+        return (c1 << 8) + c2;
+    }
+}
+
 void setHeaderPlaceholder(FILE *pFile){
-	unsigned char mask = 0;
-	fwrite(&mask, sizeof(unsigned char), 1, pFile);
-	fwrite(&mask, sizeof(unsigned char), 1, pFile);
+	unsigned short mask = 0;
+	fwrite(&mask, sizeof(mask), 1, pFile);
 }
 
 void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize){
-	//fseek(pFile, 0, SEEK_SET);
-	//unsigned short mask = 0;
-	//fwrite(&mask, sizeof(unsigned short), 1, pFile);
-	printf("trash size: %d\ntree size: %d", trashSize, treeSize);
+	fseek(pFile, 0, SEEK_SET);
+	unsigned short mask = (trashSize << 13) | treeSize;
+	mask = reverseShort(mask); //Check if littleEndian or bigEndian and formatting accordingly
+	fwrite(&mask, sizeof(mask), 1, pFile);
 }
 
 void removeLineBreakOfString(char* newStr){
