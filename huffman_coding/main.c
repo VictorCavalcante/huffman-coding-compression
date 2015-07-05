@@ -102,19 +102,36 @@ int main(){
 		writeTrashAndTreeSize(outFile, trashSize, getTreeSize(huffmanTree));
 	}
 
-// STEP THREE - Get Header Data > Read each char & write its correspondent value
+/* ATTENTION!!!!!!!!!!!!!!!
+ * STEP THREE ONLY WORKS AFTER THE FILE HAS BEEN CREATED 
+ * The problem will be solved after the functions to compress and decompress are separated
+*/
+// STEP THREE - Get Header Data: Trash size, Tree size, Tree string > Generate tree > Read file, translate & write
+	//Opening file for binary translation
+	FILE *huffFile = fopen("outTest.huff", "r");
+	if(huffFile == NULL){
+		printf("Error writing file");
+		exit(0);
+	}
 	//Getting header data
-	int trashSize = getFileHeaderTrashSize(outFile),
-		treeSize = getFileHeaderTreeSize(outFile);
-	char preOrderTree[8192] = "";
+	int trashSize = getFileHeaderTrashSize(huffFile),
+		treeSize = getFileHeaderTreeSize(huffFile);
+	char preOrderTree[10];// 8192
 	int n;
 	for(n = 0; n < treeSize; n++){
-		printf("%c - ", fgetc(outFile));
+		printf("%c", fgetc(huffFile));
 	}
+	//Generate tree
+
+	/*	?	*/
+
+	//Reading, translating, writing
+	readTraslateWrite(huffFile, huffmanTree);
 
 	//Free & close
 	fclose(tslFile);
 	fclose(outFile);
+	fclose(huffFile);
 	freePriorityQueue(binaryTrans);
 	freePriorityQueue(occurrenceQueue);
 	freeHashTable(dictionary);

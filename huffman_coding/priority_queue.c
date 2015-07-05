@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "auxiliary_functions.h"
 
 typedef struct q_node{
 	char value;
@@ -181,6 +182,42 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 		writeTreeOnFile(pfile, node->right, tree);
 	}
 }
+
+
+void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree){
+	FILE *endFile = fopen("endTest.txt", "w");
+	if(endFile == NULL){
+		printf("Error writing file");
+		exit(0);
+	}
+
+	unsigned char outChar;
+	int i;
+	Q_node *current = huffmanTree->first;
+	printf("\n");
+
+	fread(&outChar, 1, 1, pFile);
+	while(!feof(pFile)){
+		//if(feof(pFile)){printf("last one: %c\n", outChar);}
+		for(i = 7; i >= 0; i--){
+			// 1 => right
+			if(current->value == '*' && isBitISet(outChar, i)){
+				current = current->right;
+			}// 0 <= left
+			else {
+				current = current->left;
+			}
+			//Upon reaching a leaf, write corresponding character to file
+			if(current->value != '*'){
+				fwrite(&current->value, sizeof(current->value), 1, endFile);
+				printf("%c-", current->value);
+				current = huffmanTree->first; //back to top
+			}
+		}
+		fread(&outChar, 1, 1, pFile);
+	}
+}
+
 
 Q_node* getTreeRootNode(Q_tree* tree){
 	return tree->first;
