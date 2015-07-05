@@ -14,7 +14,9 @@ void setHeaderPlaceholder(FILE *pFile);
 
 void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize);
 
-int getTrashSize(FILE *pFile);
+int getFileHeaderTrashSize(FILE *pFile);
+
+int getFileHeaderTreeSize(FILE *pFile);
 
 /**
  * Removes line breack character '\n' from the end of the string

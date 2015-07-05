@@ -34,10 +34,19 @@ void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize){
 	fwrite(&mask, sizeof(mask), 1, pFile);
 }
 
-int getTrashSize(FILE *pFile){
+int getFileHeaderTrashSize(FILE *pFile){
 	fseek(pFile, 0, SEEK_SET);
 	unsigned char trashSize = fgetc(pFile);
 	return trashSize >> 5;
+}
+
+int getFileHeaderTreeSize(FILE *pFile){
+	fseek(pFile, 0, SEEK_SET);
+	unsigned short treeSize;
+	fread(&treeSize, sizeof(treeSize), 1, pFile);
+	//todo: this might be problematic when trying to decompress a file using a different FILE pointer
+	treeSize = reverseShort(treeSize); //Check if littleEndian or bigEndian and formatting accordingly
+	return (treeSize | 57344) ^ 57344; // fill first 3 bits with 111 then sets it to 000
 }
 
 void removeLineBreakOfString(char* newStr){

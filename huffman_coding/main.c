@@ -104,9 +104,13 @@ int main(){
 
 // STEP THREE - Get Header Data > Read each char & write its correspondent value
 	//Getting header data
-	int trashSize = getTrashSize(outFile);
-	printf("Trash Size - %d", trashSize);
-
+	int trashSize = getFileHeaderTrashSize(outFile),
+		treeSize = getFileHeaderTreeSize(outFile);
+	char preOrderTree[8192] = "";
+	int n;
+	for(n = 0; n < treeSize; n++){
+		printf("%c - ", fgetc(outFile));
+	}
 
 	//Free & close
 	fclose(tslFile);
