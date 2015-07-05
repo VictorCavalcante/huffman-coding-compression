@@ -34,6 +34,12 @@ void writeTrashAndTreeSize(FILE *pFile, int trashSize, int treeSize){
 	fwrite(&mask, sizeof(mask), 1, pFile);
 }
 
+int getTrashSize(FILE *pFile){
+	fseek(pFile, 0, SEEK_SET);
+	unsigned char trashSize = fgetc(pFile);
+	return trashSize >> 5;
+}
+
 void removeLineBreakOfString(char* newStr){
 	if ((strlen(newStr) > 0) && (newStr[strlen(newStr) - 1] == '\n')){
 		newStr[strlen(newStr) - 1] = '\0';

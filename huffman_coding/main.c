@@ -102,6 +102,12 @@ int main(){
 		writeTrashAndTreeSize(outFile, trashSize, getTreeSize(huffmanTree));
 	}
 
+// STEP THREE - Get Header Data > Read each char & write its correspondent value
+	//Getting header data
+	int trashSize = getTrashSize(outFile);
+	printf("Trash Size - %d", trashSize);
+
+
 	//Free & close
 	fclose(tslFile);
 	fclose(outFile);
