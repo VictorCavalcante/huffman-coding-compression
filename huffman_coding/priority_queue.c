@@ -210,7 +210,6 @@ void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree){
 			//Upon reaching a leaf, write corresponding character to file
 			if(current->value != '*'){
 				fwrite(&current->value, sizeof(current->value), 1, endFile);
-				printf("%c-", current->value);
 				current = huffmanTree->first; //back to top
 			}
 		}

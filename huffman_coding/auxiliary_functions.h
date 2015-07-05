@@ -6,6 +6,8 @@
 #ifndef AUXILIARY_FUNCTIONS_H_
 #define AUXILIARY_FUNCTIONS_H_
 
+void checkOpeningFileError(FILE *pFile);
+
 int is_bigendian();
 
 short reverseShort(short s);

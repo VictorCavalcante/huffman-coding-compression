@@ -6,6 +6,13 @@
 #include <stdio.h>
 #define H_MAX 13
 
+void checkOpeningFileError(FILE *pFile){
+	if(pFile == NULL){
+		printf("Error opening file");
+		exit(0);
+	}
+}
+
 int is_bigendian(){
 	int i = 1;
 	return ( (*(char*)&i) == 0 );
