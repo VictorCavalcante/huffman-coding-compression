@@ -145,6 +145,14 @@ void freePriorityQueue(Queue* queue){
 	}
 }
 
+void freeQueueTree(Q_node* first){
+	if(first != NULL){
+		freeQueueTree(first->left);
+		freeQueueTree(first->right);
+		free(first);
+	}
+}
+
 int getQueueLength(Queue* queue){
 	Q_node *current = queue->first;
 	int count = 0;

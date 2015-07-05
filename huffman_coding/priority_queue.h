@@ -93,6 +93,8 @@ void printQueueTreePreOrder(Q_node* node);
  */
 void freePriorityQueue(Queue* queue);
 
+void freeQueueTree(Q_node* first);
+
 /**
  * Returns the number of elements on given queue.
  */

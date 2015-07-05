@@ -20,8 +20,8 @@ int main(){
 	readAndDecompressFile(huffmanTree);
 
 //FREE
-	//todo: free the huffmanTree
-	//freeHashTable(dictionary);
+	freeQueueTree(getTreeRootNode(huffmanTree));
+	freeHashTable(dictionary);
 
 	return 0;
 }

@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "priority_queue.h"
 #include "hashtable_list.h"
 #include "auxiliary_functions.h"
@@ -32,10 +33,6 @@ Q_tree* createHuffmanTree(){
 
 	// Merging Queue into a tree
 	Q_tree *huffmanTree = mergeQueueIntoHuffmanTree(occurrenceQueue);
-
-	//FREE
-	//todo: find a way to free the queue before returning it
-	//freePriorityQueue(occurrenceQueue);
 
 	return huffmanTree;
 }
