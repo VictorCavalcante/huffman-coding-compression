@@ -25,6 +25,9 @@ int getFileHeaderTreeSize(FILE *pFile);
  */
 void removeLineBreakOfString(char* newStr);
 
+
+long getLastBytePosition(FILE* pFile);
+
 /**
  * Creates a mask empty buffer then sets a bit on its #i position.
  * Then using the OR arithmetic operation between given buffer and mask, sets

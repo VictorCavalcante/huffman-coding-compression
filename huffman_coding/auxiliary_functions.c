@@ -3,6 +3,7 @@
  *  Created on: May 30, 2015
  */
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #define H_MAX 13
 
@@ -60,6 +61,15 @@ void removeLineBreakOfString(char* newStr){
 	if ((strlen(newStr) > 0) && (newStr[strlen(newStr) - 1] == '\n')){
 		newStr[strlen(newStr) - 1] = '\0';
 	}
+}
+
+long getLastBytePosition(FILE* pFile){
+	long currPos = ftell(pFile);
+	fseek(pFile, 0, SEEK_END);
+	long finalPos = ftell(pFile);
+	fseek(pFile, currPos, SEEK_SET);
+
+	return finalPos;
 }
 
 unsigned char setBit(unsigned char c, int i){
