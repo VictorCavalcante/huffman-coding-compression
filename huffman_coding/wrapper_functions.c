@@ -73,31 +73,34 @@ void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
 				enqueue(binaryTrans, currBin[i]);
 			}
 			while(getQueueLength(binaryTrans) >= 8){
-				mask = 0 << 8;
+				mask = 0;
 				for(i = 7; i >= 0; i--){
 					if(dequeueAndFree(binaryTrans) == '1'){
 						mask = setBit(mask, i);
 					}
 				}
-				fwrite(&mask, sizeof(unsigned char), 1, outFile);
+				fwrite(&mask, sizeof(mask), 1, outFile);
 			}
 		}
 
-		//todo get trash size here
 		// Reading remaining characters and writing their binary correspondent
+		int trashSize = 0;
 		if(getQueueLength(binaryTrans) > 0){
-			int trashSize = 8 - getQueueLength(binaryTrans);
 			int binQueueSize = getQueueLength(binaryTrans), j = 7;
-			mask = 0 << 8;
+			trashSize = 8 - binQueueSize;
+			mask = 0;
 			for(i = 0; i < binQueueSize; i++){
 				if(dequeueAndFree(binaryTrans) == '1'){
 					mask = setBit(mask, j);
 				}
 				j--;
 			}
-			writeTrashAndTreeSize(outFile, trashSize, getTreeSize(huffmanTree));
+			//Writting last byte of the file (+ trash)
+			fwrite(&mask, sizeof(mask), 1, outFile);
 		}
-
+		
+		//Writting Trash Size and Tree Size on file header
+		writeTrashAndTreeSize(outFile, trashSize, getTreeSize(huffmanTree));
 
 		//FREE & CLOSE
 		fclose(tslFile);
@@ -126,7 +129,7 @@ void readAndDecompressFile(Q_tree *huffmanTree){
 	// ?
 
 	//Reading, translating, writing
-	readTraslateWrite(huffFile, huffmanTree);
+	readTraslateWrite(huffFile, huffmanTree, trashSize);
 
 	//FREE & CLOSE
 	fclose(huffFile);
