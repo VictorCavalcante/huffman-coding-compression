@@ -110,7 +110,7 @@ Q_tree* mergeQueueIntoHuffmanTree(Queue* queue);
 void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree);
 
 
-void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree);
+void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize);
 
 
 Q_node* getTreeRootNode(Q_tree* tree);

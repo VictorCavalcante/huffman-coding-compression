@@ -113,7 +113,7 @@ char dequeueAndFree(Queue* queue){
 		free(current);
 		return dequeuedValue;
 	}
-	return 'x';
+	return -1;
 }
 
 void printPriorityQueue(Queue* queue){
@@ -192,22 +192,28 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 }
 
 
-void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree){
+void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize){
 	FILE *endFile = fopen("endTest.txt", "w");
 	if(endFile == NULL){
 		printf("Error writing file");
 		exit(0);
 	}
 
+	long finalPos = getLastBytePosition(pFile);
 	unsigned char outChar;
-	int i;
+	int i, custom_right_most_byte_limit = 0;
 	Q_node *current = huffmanTree->first;
-	printf("\n");
 
-	fread(&outChar, 1, 1, pFile);
 	while(!feof(pFile)){
-		//if(feof(pFile)){printf("last one: %c\n", outChar);}
-		for(i = 7; i >= 0; i--){
+		fread(&outChar, 1, 1, pFile);
+		//If current byte is the last one on file
+		if(ftell(pFile) == finalPos){
+			fread(&outChar, 1, 1, pFile);
+			custom_right_most_byte_limit = trashSize;
+		}
+
+		//Read and write until bit in the "custom_right_most_byte_limit" position
+		for(i = 7; i >= custom_right_most_byte_limit; i--){
 			// 1 => right
 			if(current->value == '*' && isBitISet(outChar, i)){
 				current = current->right;
@@ -221,8 +227,8 @@ void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree){
 				current = huffmanTree->first; //back to top
 			}
 		}
-		fread(&outChar, 1, 1, pFile);
 	}
+	fclose(endFile);
 }
 
 
