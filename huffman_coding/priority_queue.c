@@ -191,14 +191,14 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 }
 
 //todo: get file name (Decompressed)
-void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize){
+void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize){
 	FILE *endFile = fopen("endTest.txt", "w");
 	checkOpeningFileError(endFile);
 
 	long finalPos = getLastBytePosition(pFile);
 	unsigned char outChar;
 	int i, custom_right_most_byte_limit = 0;
-	Q_node *current = huffmanTree->first;
+	Q_node *current = huffmanTree;
 
 	while(!feof(pFile)){
 		fread(&outChar, 1, 1, pFile);
@@ -220,7 +220,7 @@ void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize){
 			//Upon reaching a leaf, write corresponding character to file
 			if(current->value != '*'){
 				fwrite(&current->value, sizeof(current->value), 1, endFile);
-				current = huffmanTree->first; //back to top
+				current = huffmanTree; //back to top
 			}
 		}
 	}

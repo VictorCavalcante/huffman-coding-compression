@@ -113,7 +113,7 @@ void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
 }
 
 //todo: get file name (compressed)
-void readAndDecompressFile(Q_tree *huffmanTree){
+void readAndDecompressFile(){
 	//Opening file for binary translation
 	FILE *huffFile = fopen("outTest.huff", "r");
 	checkOpeningFileError(huffFile);
@@ -121,16 +121,11 @@ void readAndDecompressFile(Q_tree *huffmanTree){
 	//Getting header data
 	int trashSize = getFileHeaderTrashSize(huffFile),
 		treeSize = getFileHeaderTreeSize(huffFile);
-	int n;
-	printf("Trash size: %d\n", trashSize);
-	printf("Tree size: %d\n", treeSize);
-	printf("Tree: ");
-	for(n = 0; n < treeSize; n++){
-		printf("%c", fgetc(huffFile));
-	}
+	printf("\nTrash size: %d", trashSize);
+	printf("\nTree size: %d", treeSize);
 
 	//Generate tree
-	// ?
+	Q_node *huffmanTree = enqueue_pre_order_tree(huffFile, treeSize);
 
 	//Reading, translating, writing
 	readTraslateWrite(huffFile, huffmanTree, trashSize);

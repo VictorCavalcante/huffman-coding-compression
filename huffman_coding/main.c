@@ -16,12 +16,12 @@ int main(){
 	Hashtable* dictionary = createBinaryDicitionary(huffmanTree);
 	writeOnCompressedFile(huffmanTree, dictionary);
 
-// DECOMPRESS //todo: it doesn't need to pass huffmanTree as attr (make function to generate tree)
-	readAndDecompressFile(huffmanTree);
-
 //FREE
 	freeQueueTree(getTreeRootNode(huffmanTree));
 	freeHashTable(dictionary);
+
+// DECOMPRESS
+	readAndDecompressFile();
 
 	return 0;
 }

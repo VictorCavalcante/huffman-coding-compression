@@ -148,6 +148,9 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree);
  */
 void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize);
 
+Q_node* build_tree_from_queue(Q_node *tree, Queue *queue);
+
+Q_node* enqueue_pre_order_tree(FILE *pFile, int treeSize);
 
 /*======== Getters ========*/
 

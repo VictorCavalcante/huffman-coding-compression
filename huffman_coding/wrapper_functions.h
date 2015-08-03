@@ -37,6 +37,6 @@ void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary);
  * Opens compressed file for binary translation, gets the data written on the header, generates the pre-ordered tree,
  * then reads, translates and writes on the new .huff file.
  */
-void readAndDecompressFile(Q_tree *huffmanTree);
+void readAndDecompressFile();
 
 #endif /* WRAPPER_FUNCTIONS_H_ */
