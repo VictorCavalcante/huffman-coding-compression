@@ -190,9 +190,8 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 	}
 }
 
-//todo: get file name (Decompressed)
-void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize){
-	FILE *endFile = fopen("endTest.txt", "w");
+void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize, char* fileName){
+	FILE *endFile = fopen(fileName, "w");
 	checkOpeningFileError(endFile);
 
 	long finalPos = getLastBytePosition(pFile);

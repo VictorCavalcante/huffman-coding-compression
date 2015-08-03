@@ -146,7 +146,7 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree);
  * @param huffmantree 	The huffman tree
  * @param trashSize 	The size of the trash
  */
-void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize);
+void readTraslateWrite(FILE *pFile, Q_node *huffmanTree, int trashSize, char* fileName);
 
 Q_node* build_tree_from_queue(Q_node *tree, Queue *queue);
 

@@ -62,6 +62,16 @@ void removeLineBreakOfString(char* newStr){
 	}
 }
 
+void formatFileExtensionToHuff(char* outputName, char* fileName){
+	strncat(outputName, fileName, strlen(fileName) - 3);
+	strcat(outputName, "huff");
+}
+
+void formatFileExtensionToText(char* outputName, char* fileName){
+	strncat(outputName, fileName, strlen(fileName) - 4);
+	strcat(outputName, "txt");
+}
+
 long getLastBytePosition(FILE* pFile){
 	long currPos = ftell(pFile);
 	fseek(pFile, 0, SEEK_END);

@@ -13,7 +13,7 @@
  * the priority queue, then merge the priority queue into a huffman tree.
  * @return 		The huffman tree
  */
-Q_tree* createHuffmanTree();
+Q_tree* createHuffmanTree(char *fileName);
 
 /**
  * Generates 'binary-dictionary' HashTable using the huffman tree to access the keys and correpondents
@@ -31,12 +31,12 @@ Hashtable* createBinaryDicitionary(Q_tree *huffmanTree);
  * @param huffmanTree 	The huffman tree
  * @param dictionary	The 'dictionary' HashTable
  */
-void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary);
+void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary, char *fileName);
 
 /**
  * Opens compressed file for binary translation, gets the data written on the header, generates the pre-ordered tree,
  * then reads, translates and writes on the new .huff file.
  */
-void readAndDecompressFile();
+void readAndDecompressFile(char* fileName);
 
 #endif /* WRAPPER_FUNCTIONS_H_ */

@@ -13,12 +13,11 @@
 #define MAX_BIN_PATH 100
 #define DIR_SIZE 5
 
-//todo: get file name (pristine)
-Q_tree* createHuffmanTree(){
+Q_tree* createHuffmanTree(char *fileName){
 	char auxChar;
 	// Open File
 	FILE *inFile;
-	inFile = fopen("test.txt", "r");
+	inFile = fopen(fileName, "r");
 	checkOpeningFileError(inFile);
 
 	// Genereate Occurrence Hashtable
@@ -48,14 +47,15 @@ Hashtable* createBinaryDicitionary(Q_tree *huffmanTree){
 	return dictionary;
 }
 
-//todo: get file name (pristine & compressed)
-void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
+void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary, char *fileName){
 	//Opening file for binary translation
-		FILE *tslFile = fopen("test.txt", "r");
+		FILE *tslFile = fopen(fileName, "r");
 		checkOpeningFileError(tslFile);
 
 		//Creating new .huff file to write compressed binary data
-		FILE *outFile = fopen("outTest.huff", "w+b");
+		char outputName[20] = "";
+		formatFileExtensionToHuff(outputName, fileName);
+		FILE *outFile = fopen(outputName, "w+b");
 		checkOpeningFileError(outFile);
 
 		//Setting Header placeholder
@@ -109,28 +109,27 @@ void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
 		fclose(tslFile);
 		fclose(outFile);
 		freePriorityQueue(binaryTrans);
-		printf("COMPRESSED!  =><=");
+		printf("\n=><= COMPRESSED FILE: %s\n", outputName);
 }
 
-//todo: get file name (compressed)
-void readAndDecompressFile(){
+void readAndDecompressFile(char* fileName){
 	//Opening file for binary translation
-	FILE *huffFile = fopen("outTest.huff", "r");
+	char outputName[20] = "[1]";
+	formatFileExtensionToText(outputName, fileName);
+	FILE *huffFile = fopen(fileName, "r");
 	checkOpeningFileError(huffFile);
 
 	//Getting header data
 	int trashSize = getFileHeaderTrashSize(huffFile),
 		treeSize = getFileHeaderTreeSize(huffFile);
-	printf("\nTrash size: %d", trashSize);
-	printf("\nTree size: %d", treeSize);
 
 	//Generate tree
 	Q_node *huffmanTree = enqueue_pre_order_tree(huffFile, treeSize);
 
 	//Reading, translating, writing
-	readTraslateWrite(huffFile, huffmanTree, trashSize);
+	readTraslateWrite(huffFile, huffmanTree, trashSize, outputName);
 
 	//FREE & CLOSE
 	fclose(huffFile);
-	printf("\nDECOMPRESSED!  <==>");
+	printf("\n<==> DECOMPRESSED FILE: %s\n", outputName);
 }

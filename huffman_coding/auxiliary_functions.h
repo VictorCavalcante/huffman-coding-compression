@@ -67,6 +67,20 @@ int getFileHeaderTreeSize(FILE *pFile);
  */
 void removeLineBreakOfString(char* newStr);
 
+/**
+ * Trims a <name>.txt file to extract its <name>, then transforms given string (empty by default) into a <name>.huff file.
+ * @param outputName	String to concatenated with a <name>.huff (empty by default, "")
+ * @param fileName		String name of a file in txt format ("<name>.txt")
+ */
+void formatFileExtensionToHuff(char* outputName, char* fileName);
+
+/**
+ * Trims a <name>.huff file to extract its <name>, then transforms given string (empty by default) into a <name>.txt file.
+ * @param outputName	String to concatenated with a <name>.txt (empty by default, "")
+ * @param fileName		String name of a file in huff format ("<name>.huff")
+ */
+void formatFileExtensionToText(char* outputName, char* fileName);
+
 /*
  * Moves the file pointer to the last position in the file to get the last byte's position,
  * than moves it back to its previous place.
