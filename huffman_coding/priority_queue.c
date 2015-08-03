@@ -63,9 +63,8 @@ Queue* insertNodeOnQueue(Queue* queue, Q_node* newNode){
 	if(queueIsEmpty(queue)){
 		newNode->nextNode = queue->first;
 		queue->first = newNode;
-	} else {
+	} else {//insert end
 		Q_node *current = queue->first;
-		//insert end or mid
 		while(current->nextNode != NULL){
 			current = current->nextNode;
 		}
@@ -191,13 +190,10 @@ void writeTreeOnFile(FILE *pfile, Q_node *node, Q_tree *tree){
 	}
 }
 
-
+//todo: get file name (Decompressed)
 void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize){
 	FILE *endFile = fopen("endTest.txt", "w");
-	if(endFile == NULL){
-		printf("Error writing file");
-		exit(0);
-	}
+	checkOpeningFileError(endFile);
 
 	long finalPos = getLastBytePosition(pFile);
 	unsigned char outChar;
@@ -231,6 +227,32 @@ void readTraslateWrite(FILE *pFile, Q_tree *huffmanTree, int trashSize){
 	fclose(endFile);
 }
 
+Q_node* build_tree_from_queue(Q_node *tree, Queue *queue){
+	char dequeueValue = dequeueAndFree(queue);
+	if(dequeueValue == '*'){
+		tree = createQueueNode(dequeueValue, 0);
+
+		tree->left = build_tree_from_queue(tree->left, queue);
+		tree->right = build_tree_from_queue(tree->right, queue);
+	} else {
+		tree = createQueueNode(dequeueValue, 0);
+	}
+	return tree;
+}
+
+Q_node* enqueue_pre_order_tree(FILE *pFile, int treeSize){
+	int n;
+	Queue *queue = createQueue();
+	for(n = 0; n < treeSize; n++){
+		enqueue(queue, fgetc(pFile));
+	}
+
+	Q_node *newTree = NULL;
+	newTree = build_tree_from_queue(newTree, queue);
+	return newTree;
+}
+
+/*======== Getters ========*/
 
 Q_node* getTreeRootNode(Q_tree* tree){
 	return tree->first;

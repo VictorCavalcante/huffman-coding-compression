@@ -7,10 +7,11 @@
 #include <string.h>
 #include "priority_queue.h"
 #define MAX_BIN_PATH 100
-#define H_MAX 13
+#define H_MAX 30
+#define BNRY_SIZE 100
 
 typedef struct h_node{
-	char binary[9];
+	char binary[BNRY_SIZE];
 	char keyLetter;
 	int occurrence;
 	struct h_node* nextElement;
@@ -105,7 +106,7 @@ void freeHashTable(Hashtable *ht){
 void create_binary_dictionary_hashtable(Q_node* node, char *path, char *direction, Hashtable* ht){
 	char pathTurn[MAX_BIN_PATH];
 	if(strcmp(direction, "left") == 0){
-			strcat(path, "0");
+		strcat(path, "0");
 	} else if (strcmp(direction, "right") == 0){
 		strcat(path, "1");
 	}

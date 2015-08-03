@@ -11,7 +11,9 @@
 #include "hashtable_list.h"
 #include "auxiliary_functions.h"
 #define MAX_BIN_PATH 100
+#define DIR_SIZE 5
 
+//todo: get file name (pristine)
 Q_tree* createHuffmanTree(){
 	char auxChar;
 	// Open File
@@ -40,12 +42,13 @@ Q_tree* createHuffmanTree(){
 Hashtable* createBinaryDicitionary(Q_tree *huffmanTree){
 	// Generating hash with binary dictionary
 	char binaryPath[MAX_BIN_PATH] = "";
-	char pathDirection[5] = "";
+	char pathDirection[DIR_SIZE] = "";
 	Hashtable* dictionary = createHashTable();
 	create_binary_dictionary_hashtable(getTreeRootNode(huffmanTree), binaryPath, pathDirection, dictionary);
 	return dictionary;
 }
 
+//todo: get file name (pristine & compressed)
 void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
 	//Opening file for binary translation
 		FILE *tslFile = fopen("test.txt", "r");
@@ -106,9 +109,10 @@ void writeOnCompressedFile(Q_tree *huffmanTree, Hashtable* dictionary){
 		fclose(tslFile);
 		fclose(outFile);
 		freePriorityQueue(binaryTrans);
-		printf("\nCOMRPESSED! ><");
+		printf("COMPRESSED!  =><=");
 }
 
+//todo: get file name (compressed)
 void readAndDecompressFile(Q_tree *huffmanTree){
 	//Opening file for binary translation
 	FILE *huffFile = fopen("outTest.huff", "r");
@@ -133,5 +137,5 @@ void readAndDecompressFile(Q_tree *huffmanTree){
 
 	//FREE & CLOSE
 	fclose(huffFile);
-	printf("\nDECOMRPESSED! <>");
+	printf("\nDECOMPRESSED!  <==>");
 }

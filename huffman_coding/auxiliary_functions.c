@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#define H_MAX 13
+#define H_MAX 30
 
 void checkOpeningFileError(FILE *pFile){
 	if(pFile == NULL){
@@ -52,7 +52,6 @@ int getFileHeaderTreeSize(FILE *pFile){
 	fseek(pFile, 0, SEEK_SET);
 	unsigned short treeSize;
 	fread(&treeSize, sizeof(treeSize), 1, pFile);
-	//todo: this might be problematic when trying to decompress a file using a different FILE pointer
 	treeSize = reverseShort(treeSize); //Check if littleEndian or bigEndian and formatting accordingly
 	return (treeSize | 57344) ^ 57344; // fill first 3 bits with 111 then sets it to 000
 }
