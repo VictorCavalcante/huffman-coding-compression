@@ -1,2 +1,3 @@
-# Project Death Star
-Project for simple text file compression (and planet destruction).
+# Simple Text Compression Implemented in C
+
+This project focus on lossless data compression of simple raw text files using the Huffman Coding.
